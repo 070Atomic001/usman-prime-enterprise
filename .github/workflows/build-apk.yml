@@ -1,16 +1,90 @@
-      - name: Extract Android project ZIP
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Find and extract Android project ZIP
+        shell: bash
         run: |
+          set -e
+
           mkdir -p build-project
 
           ZIP_FILE=$(find . -maxdepth 1 -type f -iname "*.zip" | head -n 1)
 
           if [ -z "$ZIP_FILE" ]; then
             echo "ERROR: No ZIP file found in repository root."
-            exit 11
+            exit 1
           fi
 
           echo "Found ZIP: $ZIP_FILE"
+
           unzip -q "$ZIP_FILE" -d build-project
 
           echo "Extracted files:"
-          find build-project -maxdepth 3 -type f | head -100
+          find build-project -maxdepth 4 -type f | head -100
+
+      - name: Find Android Gradle project
+        shell: bash
+        run: |
+          set -e
+
+          PROJECT_DIR=$(find build-project -type f -name "gradlew" -print -quit | xargs -r dirname)
+
+          if [ -z "$PROJECT_DIR" ]; then
+            PROJECT_DIR=$(find build-project -type f -name "settings.gradle*" -print -quit | xargs -r dirname)
+          fi
+
+          if [ -z "$PROJECT_DIR" ]; then
+            echo "ERROR: Android Gradle project was not found."
+            echo "The ZIP must contain an Android Gradle project."
+            exit 1
+          fi
+
+          echo "Android project found at: $PROJECT_DIR"
+
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Make Gradle executable
+        run: |
+          chmod +x "$PROJECT_DIR/gradlew"
+
+      - name: Build APK
+        run: |
+          cd "$PROJECT_DIR"
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Find APK
+        run: |
+          APK_FILE=$(find "$PROJECT_DIR" -type f -name "*.apk" | head -n 1)
+
+          if [ -z "$APK_FILE" ]; then
+            echo "ERROR: APK was not created."
+            exit 1
+          fi
+
+          echo "APK found: $APK_FILE"
+          cp "$APK_FILE" "$GITHUB_WORKSPACE/Usman_Prime_Enterprise.apk"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: Usman-Prime-Enterprise-APK
+          path: Usman_Prime_Enterprise.apk
