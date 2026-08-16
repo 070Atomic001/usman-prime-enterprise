@@ -12,9 +12,9 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Find and extract Android project ZIP
+      - name: Find and extract Android project
         shell: bash
         run: |
           set -e
@@ -24,54 +24,57 @@ jobs:
           ZIP_FILE=$(find . -maxdepth 1 -type f -iname "*.zip" | head -n 1)
 
           if [ -z "$ZIP_FILE" ]; then
-            echo "ERROR: No ZIP file found in repository root."
+            echo "ERROR: No ZIP file found."
             exit 1
           fi
 
           echo "Found ZIP: $ZIP_FILE"
-
           unzip -q "$ZIP_FILE" -d build-project
 
           echo "Extracted files:"
           find build-project -maxdepth 4 -type f | head -100
 
-      - name: Find Android Gradle project
+      - name: Find Android project
         shell: bash
         run: |
           set -e
 
-          PROJECT_DIR=$(find build-project -type f -name "gradlew" -print -quit | xargs -r dirname)
+          PROJECT_DIR=$(find build-project -type f \( -name "settings.gradle" -o -name "settings.gradle.kts" \) -print -quit | xargs -r dirname)
 
           if [ -z "$PROJECT_DIR" ]; then
-            PROJECT_DIR=$(find build-project -type f -name "settings.gradle*" -print -quit | xargs -r dirname)
+            PROJECT_DIR=$(find build-project -type f \( -name "build.gradle" -o -name "build.gradle.kts" \) -print -quit | xargs -r dirname)
           fi
 
           if [ -z "$PROJECT_DIR" ]; then
-            echo "ERROR: Android Gradle project was not found."
-            echo "The ZIP must contain an Android Gradle project."
+            echo "ERROR: Android Gradle project not found."
             exit 1
           fi
 
-          echo "Android project found at: $PROJECT_DIR"
-
+          echo "PROJECT_DIR=$PROJECT_DIR"
           echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
       - name: Set up Java
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Make Gradle executable
-        run: |
-          chmod +x "$PROJECT_DIR/gradlew"
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
 
       - name: Build APK
+        shell: bash
         run: |
+          set -e
           cd "$PROJECT_DIR"
-          ./gradlew assembleDebug --no-daemon
+
+          echo "Building Android project..."
+          gradle assembleDebug --no-daemon
 
       - name: Find APK
+        shell: bash
         run: |
           APK_FILE=$(find "$PROJECT_DIR" -type f -name "*.apk" | head -n 1)
 
@@ -84,7 +87,7 @@ jobs:
           cp "$APK_FILE" "$GITHUB_WORKSPACE/Usman_Prime_Enterprise.apk"
 
       - name: Upload APK
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: Usman-Prime-Enterprise-APK
           path: Usman_Prime_Enterprise.apk
