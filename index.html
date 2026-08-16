@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1733">
+<title>Usman Prime Enterprise</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">UP</div><div><strong>Usman Prime</strong><small>Enterprise</small></div></div>
+  <a class="iconbtn" href="tel:+2347067405625" aria-label="Call us">☎</a>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">USMAN PRIME ENTERPRISE</span>
+    <h1>Your Digital<br><em>Service Partner</em></h1>
+    <p>Professional IT, design, document and digital services for individuals and businesses.</p>
+    <div class="actions">
+      <a class="btn primary" href="https://wa.me/2347067405625?text=Hello%20Usman%20Prime%20Enterprise%2C%20I%20would%20like%20to%20make%20an%20enquiry." target="_blank">WhatsApp Us</a>
+      <a class="btn ghost" href="tel:+2347067405625">Call Now</a>
+    </div>
+  </div>
+  <div class="hero-mark">UP</div>
+</section>
+
+<section id="services">
+  <div class="section-head"><div><span class="eyebrow dark-eyebrow">WHAT WE DO</span><h2>Our Services</h2></div><span class="count">6 services</span></div>
+  <div id="servicesGrid" class="grid"></div>
+</section>
+
+<section id="request" class="panel request-panel">
+  <span class="eyebrow dark-eyebrow">QUICK REQUEST</span>
+  <h2>Tell us what you need</h2>
+  <p class="muted">Choose a service and send your request directly to our WhatsApp.</p>
+  <form id="orderForm">
+    <label>Full name<input id="name" required autocomplete="name" placeholder="Your full name"></label>
+    <label>Phone number<input id="phone" required type="tel" autocomplete="tel" placeholder="08012345678"></label>
+    <label>Service<select id="service" required></select></label>
+    <label>Budget (optional)<input id="amount" type="number" min="0" placeholder="₦ Amount"></label>
+    <label>What do you need?<textarea id="details" rows="4" placeholder="Describe your request"></textarea></label>
+    <button class="btn primary full" type="submit">Send Request on WhatsApp →</button>
+  </form>
+  <p id="status" class="status" role="status"></p>
+</section>
+
+<section id="about" class="about">
+  <div><span class="eyebrow dark-eyebrow">ABOUT US</span><h2>Reliable. Professional. Local.</h2><p>Usman Prime Enterprise provides practical and dependable technology and digital support for customers in Potiskum, Yobe State and beyond.</p></div>
+  <div class="trust"><div><b>✓</b><span>Customer-focused service</span></div><div><b>✓</b><span>Professional solutions</span></div><div><b>✓</b><span>Fast communication</span></div></div>
+</section>
+
+<section id="contact" class="panel contact-panel">
+  <span class="eyebrow dark-eyebrow">CONTACT US</span><h2>We're ready to help</h2>
+  <div class="contact-list">
+    <a href="tel:+2347067405625"><span>📞</span><div><b>07067405625</b><small>Call us</small></div></a>
+    <a href="mailto:umohammedatom3@gmail.com"><span>✉️</span><div><b>umohammedatom3@gmail.com</b><small>Email us</small></div></a>
+    <a href="https://www.google.com/maps/search/?api=1&query=Unguwar%20Jaji%20Area%2C%20Potiskum%2C%20Yobe%20State" target="_blank"><span>📍</span><div><b>Unguwar Jaji Area</b><small>Potiskum, Yobe State, Nigeria</small></div></a>
+  </div>
+</section>
+</main>
+
+<nav class="bottomnav"><a href="#services">Services</a><a href="#request" class="home">Request Service</a><a href="#contact">Contact</a></nav>
+<footer>© 2026 Usman Prime Enterprise · All rights reserved.</footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

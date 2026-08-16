@@ -1,54 +1,18 @@
-name: Build Android APK
+# Usman Prime Enterprise — Professional Android App v4.0
 
-on:
-  workflow_dispatch:
-  push:
-    branches: ["main"]
+Customer-ready Android app for Usman Prime Enterprise.
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+## Included
+- Professional navy/gold branded home screen
+- Six service categories
+- Service request form
+- Direct WhatsApp order flow
+- Call, email and map contact actions
+- About/trust section
+- Mobile-first navigation
+- Updated GitHub Actions build workflow using current action runtimes
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Find Android project ZIP
-        run: |
-          ZIP_FILE=""
-          for f in *.zip; do
-            if [ -f "$f" ] && unzip -l "$f" | grep -q "settings.gradle"; then
-              ZIP_FILE="$f"
-              break
-            fi
-          done
-
-          if [ -z "$ZIP_FILE" ]; then
-            echo "No Android project ZIP found."
-            exit 1
-          fi
-
-          echo "Using: $ZIP_FILE"
-          mkdir android-project
-          unzip -q "$ZIP_FILE" -d android-project
-
-      - name: Set up Java
-        uses: actions/setup-java@v5
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.9"
-
-      - name: Build APK
-        working-directory: android-project
-        run: gradle assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: usman-prime-enterprise-apk
-          path: android-project/app/build/outputs/apk/debug/app-debug.apk
+Business contact:
+- Phone/WhatsApp: 07067405625
+- Email: umohammedatom3@gmail.com
+- Location: Unguwar Jaji Area, Potiskum, Yobe State, Nigeria
