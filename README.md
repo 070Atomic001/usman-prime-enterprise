@@ -1,18 +1,18 @@
-# Usman Prime Enterprise — Professional Android App v4.0
+# Usman Prime Enterprise — Android App
 
-Customer-ready Android app for Usman Prime Enterprise.
+This is a complete Android Gradle project prepared for GitHub Actions APK builds.
 
-## Included
-- Professional navy/gold branded home screen
-- Six service categories
-- Service request form
-- Direct WhatsApp order flow
-- Call, email and map contact actions
-- About/trust section
-- Mobile-first navigation
-- Updated GitHub Actions build workflow using current action runtimes
+## Required Android project files
+- `gradlew`
+- `gradlew.bat`
+- `gradle/wrapper/gradle-wrapper.jar`
+- `gradle/wrapper/gradle-wrapper.properties`
+- `settings.gradle`
+- `build.gradle`
+- `app/`
 
-Business contact:
-- Phone/WhatsApp: 07067405625
+## App details
+- Business: Usman Prime Enterprise
+- Phone: 07067405625
 - Email: umohammedatom3@gmail.com
-- Location: Unguwar Jaji Area, Potiskum, Yobe State, Nigeria
+- Location: Potiskum, Yobe State, Nigeria
